@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Truck, CreditCard, Clock, Download, Gift, PenLine } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { usePDF } from 'react-to-pdf';
+import { generatePDF } from 'react-to-pdf';
 import { toast } from "@/components/ui/use-toast";
 
 interface OrderSummaryProps {
@@ -26,13 +26,15 @@ const OrderSummary = ({
   userDetails,
   giftNote
 }: OrderSummaryProps) => {
-  const { toPDF, targetRef } = usePDF({
-    filename: `order-summary-${Date.now()}.pdf`,
-    page: { margin: 20 }
-  });
+  const pdfRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = () => {
-    toPDF()
+    const options = {
+      filename: `order-summary-${Date.now()}.pdf`,
+      page: { margin: 20 }
+    };
+
+    generatePDF(pdfRef, options)
       .then(() => {
         toast({
           title: "PDF téléchargé avec succès",
@@ -58,7 +60,7 @@ const OrderSummary = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="bg-white rounded-lg shadow-sm p-6 mb-6"
-      ref={targetRef}
+      ref={pdfRef}
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-medium text-[#471818]">Résumé de la commande</h2>
