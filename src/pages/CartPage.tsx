@@ -21,7 +21,6 @@ const CartPage = () => {
   const { toast } = useToast();
   const [userDetails, setUserDetails] = useState<UserDetails | null>(getUserDetails());
   const [isEditing, setIsEditing] = useState(false);
-  const [discountCode, setDiscountCode] = useState('');
 
   const { subtotal, discount: newsletterDiscount, total } = calculateTotal();
   const shipping = total > 500 ? 0 : 7;
@@ -160,12 +159,13 @@ const CartPage = () => {
                   <div className="animate-pulse h-96 bg-gray-200 rounded-lg"></div>
                 }>
                   <OrderSummary
+                    total={total}
                     subtotal={subtotal}
                     shipping={shipping}
                     finalTotal={finalTotal}
                     hasNewsletterDiscount={hasNewsletterDiscount}
                     newsletterDiscount={newsletterDiscount}
-                    items={cartItems}
+                    cartItems={cartItems}
                     userDetails={userDetails}
                     onEditDetails={!isEditing ? handleEditDetails : undefined}
                     onDeleteDetails={!isEditing ? handleDeleteDetails : undefined}
