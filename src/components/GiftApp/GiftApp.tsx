@@ -9,17 +9,20 @@ import GiftBasket3D from "./GiftBasket3D";
 import PackSummary from "./PackSummary";
 import ConfirmationButton from "./ConfirmationButton";
 import { Product } from "@/types/product";
+import ProductDetailModal from "../ProductDetailModal";
 
 export interface GiftPack {
-  items: Product[];
+  items: (Product & { size?: string; quantity?: number })[];
   totalPrice: number;
   note?: string;
 }
 
 const GiftApp = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState<Product[]>([]);
+  const [selectedItems, setSelectedItems] = useState<(Product & { size?: string; quantity?: number })[]>([]);
   const [packNote, setPackNote] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
@@ -27,16 +30,16 @@ const GiftApp = () => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-
     return () => clearTimeout(timer);
   }, []);
 
-  const handleItemDrop = (item: Product) => {
-    setSelectedItems((prev) => [...prev, item]);
+  const handleItemDrop = (item: Product, size?: string, quantity: number = 1) => {
+    setSelectedItems((prev) => [...prev, { ...item, size, quantity }]);
     playTickSound();
     toast({
       title: "Article Ajouté! 🎁",
       description: "N'oubliez pas que vous pouvez ajouter un message personnalisé à votre cadeau!",
+      duration: 5000,
       style: {
         backgroundColor: '#700100',
         color: 'white',
@@ -45,21 +48,53 @@ const GiftApp = () => {
     });
   };
 
+  const handleItemRemove = (itemId: number) => {
+    setSelectedItems((prev) => prev.filter(item => item.id !== itemId));
+    toast({
+      title: "Article Retiré",
+      description: "L'article a été retiré de votre pack cadeau",
+      duration: 5000,
+      style: {
+        backgroundColor: '#700100',
+        color: 'white',
+        border: '1px solid #590000',
+      },
+    });
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDetailModalOpen(true);
+  };
+
   const handleConfirmPack = async () => {
+    const invalidItems = selectedItems.filter(item => !item.size);
+    if (invalidItems.length > 0) {
+      toast({
+        title: "Attention!",
+        description: "Veuillez sélectionner une taille pour tous les articles",
+        variant: "destructive",
+        duration: 5000,
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     for (const item of selectedItems) {
       await new Promise(resolve => setTimeout(resolve, 500));
       addToCart({
         ...item,
-        quantity: 1,
+        quantity: item.quantity || 1,
         personalization: packNote,
+        size: item.size || 'M', // Fallback size if somehow missing
       });
     }
 
     toast({
       title: "Pack Ajouté au Panier! 🎉",
       description: "Souhaitez-vous procéder au paiement?",
+      duration: 5000,
       action: (
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -117,6 +152,8 @@ const GiftApp = () => {
             <GiftBasket3D 
               items={selectedItems}
               onItemDrop={handleItemDrop}
+              onItemClick={handleProductClick}
+              onItemRemove={handleItemRemove}
             />
           </motion.div>
 
@@ -130,6 +167,7 @@ const GiftApp = () => {
               items={selectedItems}
               note={packNote}
               onNoteChange={setPackNote}
+              onItemClick={handleProductClick}
             />
             <ConfirmationButton
               onConfirm={handleConfirmPack}
@@ -138,6 +176,17 @@ const GiftApp = () => {
           </motion.div>
         </div>
       </div>
+
+      {selectedProduct && (
+        <ProductDetailModal
+          isOpen={isDetailModalOpen}
+          onClose={() => {
+            setIsDetailModalOpen(false);
+            setSelectedProduct(null);
+          }}
+          product={selectedProduct}
+        />
+      )}
     </div>
   );
 };
