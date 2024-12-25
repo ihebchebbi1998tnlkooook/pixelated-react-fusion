@@ -7,27 +7,23 @@ import { useToast } from "@/hooks/use-toast";
 import Footer from '@/components/Footer';
 import BrandNavbarSection from "@/components/productsPages/BrandNavbarSection";
 import { motion } from "framer-motion";
-import { UserDetails, getUserDetails } from '@/utils/userDetailsStorage';
+import { UserDetails, getUserDetails, saveUserDetails } from '@/utils/userDetailsStorage';
 import BackButton from '@/components/cart/BackButton';
 import EmptyCartMessage from '@/components/cart/EmptyCartMessage';
 
-// Lazy load components for better performance
 const UserDetailsForm = React.lazy(() => import('@/components/cart/UserDetailsForm'));
 const OrderSummary = React.lazy(() => import('@/components/cart/OrderSummary'));
 const CartItemCard = React.lazy(() => import('@/components/cart/CartItemCard'));
 
 const CartPage = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, hasNewsletterDiscount, applyNewsletterDiscount, calculateTotal } = useCart();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [userDetails, setUserDetails] = useState<UserDetails | null>(getUserDetails());
   const [isEditing, setIsEditing] = useState(false);
+  const [discountCode, setDiscountCode] = useState('');
 
-  // Memoize calculations
-  const total = React.useMemo(() => 
-    cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cartItems]
-  );
+  const { subtotal, discount: newsletterDiscount, total } = calculateTotal();
   const shipping = total > 500 ? 0 : 7;
   const finalTotal = total + shipping;
 
@@ -60,6 +56,7 @@ const CartPage = () => {
   };
 
   const handleEditDetails = () => setIsEditing(true);
+  
   const handleDeleteDetails = () => {
     localStorage.removeItem('userDetails');
     setUserDetails(null);
@@ -76,7 +73,29 @@ const CartPage = () => {
 
   const handleFormComplete = (details: UserDetails) => {
     setUserDetails(details);
+    saveUserDetails(details);
     setIsEditing(false);
+  };
+
+  const handleApplyDiscount = (code: string) => {
+    if (code === 'WELCOME10') {
+      applyNewsletterDiscount();
+      toast({
+        title: "Code promo appliqué",
+        description: "La réduction a été appliquée à votre commande",
+        style: {
+          backgroundColor: '#700100',
+          color: 'white',
+          border: '1px solid #590000',
+        },
+      });
+    } else {
+      toast({
+        title: "Code invalide",
+        description: "Le code promo entré n'est pas valide",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -84,13 +103,6 @@ const CartPage = () => {
       <Helmet>
         <title>Mon Panier | Fiori - Vêtements Personnalisés</title>
         <meta name="description" content="Gérez votre panier d'achats Fiori. Découvrez notre collection de vêtements personnalisés et haut de gamme en Tunisie." />
-        <meta name="robots" content="index, follow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#700100" />
-        <meta property="og:title" content="Mon Panier | Fiori - Vêtements Personnalisés" />
-        <meta property="og:description" content="Gérez votre panier d'achats Fiori. Découvrez notre collection de vêtements personnalisés et haut de gamme en Tunisie." />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://www.fiori.com/cart" />
       </Helmet>
 
       <TopNavbar />
@@ -101,7 +113,7 @@ const CartPage = () => {
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-2xl md:text-3xl font-serif text-[#1A1F2C] mt-4"
+            className="text-2xl md:text-3xl font-serif text-black mt-4"
           >
             Mon Panier ({cartItems.length} articles)
           </motion.h1>
@@ -121,7 +133,7 @@ const CartPage = () => {
                     {cartItems.map((item) => (
                       <CartItemCard
                         key={item.id}
-                        item={{...item, price: item.price}}
+                        item={item}
                         onUpdateQuantity={handleUpdateQuantity}
                         onRemove={handleRemoveItem}
                       />
@@ -148,13 +160,16 @@ const CartPage = () => {
                   <div className="animate-pulse h-96 bg-gray-200 rounded-lg"></div>
                 }>
                   <OrderSummary
-                    total={total}
+                    subtotal={subtotal}
                     shipping={shipping}
                     finalTotal={finalTotal}
+                    hasNewsletterDiscount={hasNewsletterDiscount}
+                    newsletterDiscount={newsletterDiscount}
+                    items={cartItems}
                     userDetails={userDetails}
-                    cartItems={cartItems}
                     onEditDetails={!isEditing ? handleEditDetails : undefined}
                     onDeleteDetails={!isEditing ? handleDeleteDetails : undefined}
+                    onApplyDiscount={handleApplyDiscount}
                   />
                 </Suspense>
               </div>
