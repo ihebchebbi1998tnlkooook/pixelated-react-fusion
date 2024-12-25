@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Truck, CreditCard, Clock, Download, Gift, PenLine, Trash2, Tag } from 'lucide-react';
+import { ShoppingBag, Truck, CreditCard, Clock, Download, Gift, PenLine } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { usePDF } from 'react-to-pdf';
 import { toast } from "@/components/ui/use-toast";
-import { CartItem } from '@/components/cart/CartProvider';
-import { UserDetails } from '@/utils/userDetailsStorage';
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -13,186 +11,171 @@ interface OrderSummaryProps {
   finalTotal: number;
   hasNewsletterDiscount?: boolean;
   newsletterDiscount?: number;
-  items: CartItem[];
-  userDetails: UserDetails | null;
+  items?: any[];
+  userDetails?: any;
   giftNote?: string;
-  onEditDetails?: () => void;
-  onDeleteDetails?: () => void;
-  onApplyDiscount?: (code: string) => void;
 }
 
-const OrderSummary = ({
-  subtotal,
-  shipping,
+const OrderSummary = ({ 
+  subtotal, 
+  shipping, 
   finalTotal,
-  hasNewsletterDiscount,
+  hasNewsletterDiscount = false,
   newsletterDiscount = 0,
-  items,
+  items = [],
   userDetails,
-  giftNote,
-  onEditDetails,
-  onDeleteDetails,
-  onApplyDiscount
+  giftNote
 }: OrderSummaryProps) => {
   const { toPDF, targetRef } = usePDF({
-    filename: 'commande-fiori.pdf'
+    filename: `order-summary-${Date.now()}.pdf`,
+    page: { margin: 20 }
   });
 
-  const handleGeneratePDF = async () => {
-    try {
-      await toPDF();
-      toast({
-        title: "PDF généré avec succès",
-        description: "Votre résumé de commande a été téléchargé",
-        style: {
-          backgroundColor: '#700100',
-          color: 'white',
-          border: '1px solid #590000',
-        },
+  const handleDownloadPDF = () => {
+    toPDF()
+      .then(() => {
+        toast({
+          title: "PDF téléchargé avec succès",
+          description: "Votre résumé de commande a été téléchargé",
+          style: {
+            backgroundColor: '#700100',
+            color: 'white',
+            border: '1px solid #590000',
+          },
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Erreur lors du téléchargement",
+          description: "Une erreur est survenue lors de la génération du PDF",
+          variant: "destructive",
+        });
       });
-    } catch (error) {
-      toast({
-        title: "Erreur",
-        description: "Impossible de générer le PDF",
-        variant: "destructive",
-      });
-    }
   };
 
   return (
-    <motion.div
+    <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-6 rounded-lg shadow-sm space-y-6"
+      className="bg-white rounded-lg shadow-sm p-6 mb-6"
       ref={targetRef}
     >
-      <h2 className="text-xl font-medium text-black">Résumé de la commande</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-medium text-[#471818]">Résumé de la commande</h2>
+        <Button
+          onClick={handleDownloadPDF}
+          variant="outline"
+          className="flex items-center gap-2 text-[#700100] hover:bg-[#700100] hover:text-white transition-all duration-300"
+        >
+          <Download className="w-4 h-4" />
+          Télécharger PDF
+        </Button>
+      </div>
 
-      {userDetails && (
-        <div className="border-b border-gray-200 pb-4">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="font-medium text-black">Adresse de livraison</h3>
-            <div className="flex gap-2">
-              {onEditDetails && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onEditDetails}
-                  className="text-[#700100] hover:bg-[#700100] hover:text-white"
-                >
-                  <PenLine className="w-4 h-4 mr-1" />
-                  Modifier
-                </Button>
-              )}
-              {onDeleteDetails && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onDeleteDetails}
-                  className="text-red-600 hover:bg-red-600 hover:text-white"
-                >
-                  <Trash2 className="w-4 h-4 mr-1" />
-                  Supprimer
-                </Button>
-              )}
+      {items && items.length > 0 && (
+        <div className="mb-6 space-y-4">
+          <h3 className="font-medium text-[#471818] mb-2">Articles commandés</h3>
+          {items.map((item, index) => (
+            <div key={index} className="border border-gray-100 rounded-lg p-4">
+              <div className="flex items-center gap-4">
+                <img 
+                  src={item.image} 
+                  alt={item.name}
+                  className="w-16 h-16 object-contain rounded-lg bg-gray-50"
+                />
+                <div className="flex-1">
+                  <h4 className="font-medium text-[#471818]">{item.name}</h4>
+                  <div className="text-sm text-gray-600 mt-1">
+                    {item.size && <span className="mr-3">Taille: {item.size}</span>}
+                    <span>Quantité: {item.quantity}</span>
+                  </div>
+                  {item.personalization && (
+                    <div className="mt-2 text-sm bg-gray-50 p-2 rounded-md">
+                      <span className="font-medium">Personnalisation:</span> {item.personalization}
+                    </div>
+                  )}
+                </div>
+                <div className="text-right">
+                  <span className="font-medium text-[#700100]">
+                    {(item.price * item.quantity).toFixed(2)} TND
+                  </span>
+                </div>
+              </div>
             </div>
+          ))}
+        </div>
+      )}
+
+      {giftNote && (
+        <div className="mb-6 bg-[#F8F8F8] rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Gift className="w-4 h-4 text-[#700100]" />
+            <h3 className="font-medium text-[#471818]">Message du Pack Cadeau</h3>
           </div>
-          <div className="text-black space-y-1">
-            <p>{userDetails.firstName} {userDetails.lastName}</p>
-            <p>{userDetails.address}</p>
-            <p>{userDetails.zipCode} {userDetails.country}</p>
-            <p>{userDetails.phone}</p>
-            <p>{userDetails.email}</p>
-          </div>
+          <p className="text-gray-600 italic">{giftNote}</p>
         </div>
       )}
 
       <div className="space-y-4">
-        {items.map((item, index) => (
-          <div key={index} className="flex justify-between items-center text-black">
-            <div className="flex items-center gap-4">
-              <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
-              <div>
-                <p className="font-medium">{item.name}</p>
-                <p className="text-sm">Quantité: {item.quantity}</p>
-                {item.size && <p className="text-sm">Taille: {item.size}</p>}
-                {item.color && <p className="text-sm">Couleur: {item.color}</p>}
-                {item.personalization && (
-                  <p className="text-sm">Personnalisation: {item.personalization}</p>
-                )}
-              </div>
+        <div className="space-y-3">
+          <div className="flex justify-between text-gray-600">
+            <span>Sous-total</span>
+            <span>{subtotal.toFixed(2)} TND</span>
+          </div>
+          
+          {hasNewsletterDiscount && newsletterDiscount > 0 && (
+            <div className="flex justify-between text-green-600">
+              <span>Réduction newsletter (-5%)</span>
+              <span>-{newsletterDiscount.toFixed(2)} TND</span>
             </div>
-            <p className="font-medium">{(item.price * item.quantity).toFixed(2)} DT</p>
+          )}
+
+          <div className="flex justify-between text-gray-600">
+            <span>Livraison</span>
+            <span>{shipping === 0 ? 'Gratuite' : `${shipping.toFixed(2)} TND`}</span>
           </div>
-        ))}
-      </div>
-
-      {giftNote && (
-        <div className="border-t border-gray-200 pt-4">
-          <div className="flex items-center gap-2 text-black mb-2">
-            <Gift className="w-5 h-5" />
-            <h3 className="font-medium">Note cadeau</h3>
+          
+          <div className="flex justify-between font-medium text-lg pt-3 border-t border-gray-100">
+            <span>Total</span>
+            <span className="text-[#700100]">{finalTotal.toFixed(2)} TND</span>
           </div>
-          <p className="text-black italic">{giftNote}</p>
         </div>
-      )}
 
-      {onApplyDiscount && (
-        <div className="flex gap-2 border-t border-gray-200 pt-4">
-          <input
-            type="text"
-            placeholder="Code promo"
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#700100]"
-          />
-          <Button
-            onClick={() => onApplyDiscount('CODE')}
-            className="bg-[#700100] hover:bg-[#590000] text-white"
-          >
-            <Tag className="w-4 h-4 mr-2" />
-            Appliquer
-          </Button>
-        </div>
-      )}
-
-      <div className="border-t border-gray-200 pt-4 space-y-3">
-        <div className="flex justify-between text-black">
-          <span>Sous-total</span>
-          <span>{subtotal.toFixed(2)} DT</span>
-        </div>
-        {hasNewsletterDiscount && (
-          <div className="flex justify-between text-green-600">
-            <span>Réduction newsletter (5%)</span>
-            <span>-{newsletterDiscount.toFixed(2)} DT</span>
+        {userDetails && (
+          <div className="bg-[#F8F8F8] rounded-lg p-4 space-y-3">
+            <h3 className="font-medium text-[#471818] mb-2">Informations de livraison</h3>
+            <div className="space-y-2 text-sm text-gray-600">
+              <p>{userDetails.firstName} {userDetails.lastName}</p>
+              <p>{userDetails.address}</p>
+              <p>{userDetails.city}, {userDetails.postalCode}</p>
+              <p>Tél: {userDetails.phone}</p>
+              <p>Email: {userDetails.email}</p>
+            </div>
           </div>
         )}
-        <div className="flex justify-between text-black">
-          <span>Frais de livraison</span>
-          <span>{shipping === 0 ? 'Gratuit' : `${shipping.toFixed(2)} DT`}</span>
-        </div>
-        <div className="flex justify-between font-medium text-lg text-black pt-2 border-t">
-          <span>Total</span>
-          <span>{finalTotal.toFixed(2)} DT</span>
+
+        <div className="bg-[#F8F8F8] rounded-lg p-4 space-y-3">
+          <h3 className="font-medium text-[#471818] mb-2">Informations importantes</h3>
+          <div className="space-y-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2">
+              <ShoppingBag className="w-4 h-4 text-[#700100]" />
+              <span>Livraison gratuite à partir de 500 TND</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Truck className="w-4 h-4 text-[#700100]" />
+              <span>Livraison express disponible</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CreditCard className="w-4 h-4 text-[#700100]" />
+              <span>Paiement sécurisé</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-[#700100]" />
+              <span>Retours gratuits sous 14 jours</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="space-y-2 pt-4 border-t border-gray-200">
-        <div className="flex items-center gap-2 text-black">
-          <Truck className="w-5 h-5" />
-          <span>Livraison estimée sous 3-5 jours ouvrables</span>
-        </div>
-        <div className="flex items-center gap-2 text-black">
-          <CreditCard className="w-5 h-5" />
-          <span>Paiement sécurisé</span>
-        </div>
-      </div>
-
-      <Button
-        onClick={handleGeneratePDF}
-        className="w-full bg-[#700100] hover:bg-[#590000] text-white"
-      >
-        <Download className="w-4 h-4 mr-2" />
-        Télécharger le résumé PDF
-      </Button>
     </motion.div>
   );
 };
