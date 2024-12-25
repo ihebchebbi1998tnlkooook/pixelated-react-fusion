@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CreditCard } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import TopNavbar from '@/components/TopNavbar';
 import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
@@ -36,7 +36,7 @@ const OrderPreviewPage = () => {
     return null;
   }
 
-  const { items, userDetails, shipping, finalTotal } = state.orderDetails;
+  const { items, userDetails, shipping, finalTotal, giftNote } = state.orderDetails;
 
   return (
     <div className="min-h-screen bg-[#F1F0FB]">
@@ -67,6 +67,9 @@ const OrderPreviewPage = () => {
             finalTotal={finalTotal}
             hasNewsletterDiscount={hasNewsletterDiscount}
             newsletterDiscount={newsletterDiscount}
+            items={items}
+            userDetails={userDetails}
+            giftNote={giftNote}
           />
 
           <HoldToConfirmButton onConfirm={handleConfirmOrder} />
