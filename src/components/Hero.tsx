@@ -1,33 +1,96 @@
-import { ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
-  return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 to-neutral-100" />
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-        <span className="inline-block animate-fade-down opacity-0 mb-4 px-3 py-1 text-sm font-medium text-neutral-600 bg-neutral-100 rounded-full">
-          Welcome to the future
-        </span>
-        
-        <h1 className="animate-fade-up opacity-0 text-4xl md:text-6xl font-bold text-neutral-900 mb-6">
-          Create something beautiful
-        </h1>
-        
-        <p className="animate-fade-up opacity-0 delay-100 max-w-2xl mx-auto text-lg text-neutral-600 mb-8">
-          Experience the perfect blend of design and functionality. Built with attention to every detail.
-        </p>
-        
-        <button className="animate-fade-up opacity-0 delay-200 group inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white bg-neutral-900 rounded-full hover:bg-neutral-800 transition-all duration-200">
-          Get Started
-          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
-        </button>
-      </div>
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-      {/* Abstract shapes */}
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-neutral-100 rounded-full blur-3xl opacity-50" />
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-neutral-100 rounded-full blur-3xl opacity-50" />
-    </div>
+  const banners = [
+    {
+      image: 'banner.png',
+      title: 'Univers cadeau'
+    },
+    {
+      image: 'banner2.png',
+      title: 'Nouvelle collection'
+    },
+    {
+      image: 'banner3.png',
+      title: 'Le sur mesure'
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === banners.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 8000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="relative h-[95vh] overflow-hidden"> {/* Changed from h-screen to h-[90vh] */}
+      <AnimatePresence mode='wait'>
+        <motion.div
+          key={currentIndex}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('${banners[currentIndex].image}')`,
+            willChange: 'transform'
+          }}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{
+            duration: 1.2,
+            ease: [0.43, 0.13, 0.23, 0.96]
+          }}
+        />
+      </AnimatePresence>
+
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="absolute bottom-6 w-full px-4 md:px-6 lg:px-8">
+        <div className="flex flex-col items-center lg:items-start">
+          <div className="flex justify-center lg:justify-start gap-4">
+            {banners.map((banner, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center lg:items-start"
+                style={{ minWidth: '100px' }}
+              >
+                <motion.h2
+                  className={`text-xs md:text-sm font-medium mb-1 text-center lg:text-left transition-colors duration-300 ${
+                    currentIndex === index ? 'text-white' : 'text-gray-400'
+                  }`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  {banner.title}
+                </motion.h2>
+                
+                <div className="w-full h-[1px] bg-gray-600 rounded-full">
+                  {currentIndex === index && (
+                    <motion.div
+                      className="h-full bg-white rounded-full"
+                      initial={{ width: '0%' }}
+                      animate={{ width: '100%' }}
+                      transition={{
+                        duration: 8,
+                        ease: 'linear',
+                        repeat: 0
+                      }}
+                      key={`progress-${currentIndex}`}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
