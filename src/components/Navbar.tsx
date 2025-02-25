@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Instagram, Facebook, Youtube, Globe, Phone, Mail, MapPin, Building2, Users } from 'lucide-react';
 import type { ClientType, NavItem, Language } from '../types';
+import ProductsDropdown from './navigation/ProductsDropdown';
 
 interface NavbarProps {
   clientType: ClientType;
@@ -13,7 +13,6 @@ interface NavbarProps {
 const B2C_ITEMS: NavItem[] = [
   { label: 'Acceuil', href: 'home' },
   { label: 'À propos', href: 'about' },
-  { label: 'Nos Produits', href: 'products' },
   { label: 'Nos Revendeurs', href: 'resellers' },
   { label: 'Nos Certifications', href: 'certifications' },
   { label: 'Contact', href: 'contact' },
@@ -146,7 +145,20 @@ const Navbar = ({ clientType, onPageChange, currentPage, onClientTypeChange }: N
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
+            <a
+              href="#"
+              onClick={(e) => handleNavClick('home', e)}
+              className={`text-gray-700 transition-all duration-300 font-medium relative group py-2
+                ${currentPage === 'home' ? 'text-[#96cc39]' : 'hover:text-[#96cc39]'}`}
+            >
+              Accueil
+            </a>
+            
+            {/* Products Dropdown */}
+            <ProductsDropdown />
+            
+            {/* Other Nav Items */}
+            {navItems.slice(1).map((item) => (
               <a
                 key={item.href}
                 href="#"
