@@ -8,6 +8,7 @@ import { Contact } from './pages/Contact';
 import Home from './pages/Home';
 import About from './pages/About';
 import Revendeurs from './pages/Revendeurs';
+import Certifications from './pages/Certifications';
 import type { ClientType } from './types';
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
         return <Contact />;
       case 'resellers':
         return <Revendeurs />;
+      case 'certifications':
+        return <Certifications />;
       default:
         return <Home />;
     }
@@ -47,7 +50,7 @@ function App() {
         <ClientTypeModal onSelect={setClientType} />
       ) : (
         <>
-         <Navbar 
+          <Navbar 
             clientType={clientType} 
             onPageChange={setCurrentPage} 
             currentPage={currentPage}
