@@ -1,6 +1,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, X } from 'lucide-react';
+import { Shield, Award, CheckCircle, X } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 import { useState } from 'react';
 
@@ -11,13 +11,13 @@ const Certifications = () => {
     {
       id: 1,
       title: "Certification ISO 22000",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&auto=format&fit=crop&q=60",
+      image: "/lovable-uploads/72f91537-d0c3-4173-95e8-7d864598b156.png",
       description: "Notre certification ISO 22000 témoigne de notre engagement envers la sécurité alimentaire et la qualité de nos produits."
     },
     {
       id: 2,
       title: "Agriculture Biologique",
-      image: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=800&auto=format&fit=crop&q=60",
+      image: "/lovable-uploads/72f91537-d0c3-4173-95e8-7d864598b156.png",
       description: "Notre certification Bio garantit des produits 100% naturels, cultivés dans le respect de l'environnement."
     }
   ];
@@ -58,21 +58,16 @@ const Certifications = () => {
               className="group relative cursor-pointer perspective"
             >
               <div className="relative transform transition-transform duration-700 preserve-3d group-hover:rotate-y-5 group-hover:rotate-x-5">
-                {/* Outer Frame */}
-                <div className="absolute inset-0 bg-[#8B4513] rounded-lg shadow-2xl transform translate-z-0">
-                  {/* Inner Frame */}
-                  <div className="absolute inset-3 bg-[#DEB887] rounded-lg">
-                    {/* Gold Border */}
-                    <div className="absolute inset-2 border-8 border-[#CD853F] rounded-lg">
-                      {/* Image Container */}
-                      <div className="relative h-full w-full overflow-hidden rounded-lg">
-                        <img 
-                          src={cert.image}
-                          alt={cert.title}
-                          className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/10 transition-opacity duration-300 group-hover:opacity-0" />
-                      </div>
+                {/* Frame */}
+                <div className="absolute inset-0 bg-white rounded-lg shadow-2xl transform translate-z-0">
+                  <div className="absolute inset-2 border-8 border-[#f8f7f4] rounded-lg">
+                    <div className="relative h-full w-full overflow-hidden rounded-lg">
+                      <img 
+                        src={cert.image}
+                        alt={cert.title}
+                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/10 transition-opacity duration-300 group-hover:opacity-0" />
                     </div>
                   </div>
                 </div>
@@ -105,7 +100,7 @@ const Certifications = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative bg-[#DEB887] rounded-xl p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+              className="relative bg-white rounded-xl p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto"
               onClick={e => e.stopPropagation()}
             >
               <button
@@ -117,17 +112,11 @@ const Certifications = () => {
               
               {certifications.find(c => c.id === selectedCert) && (
                 <div className="space-y-6">
-                  <div className="bg-[#8B4513] p-4 rounded-lg">
-                    <div className="bg-[#DEB887] p-3 rounded-lg">
-                      <div className="border-8 border-[#CD853F] rounded-lg overflow-hidden">
-                        <img
-                          src={certifications.find(c => c.id === selectedCert)?.image}
-                          alt={certifications.find(c => c.id === selectedCert)?.title}
-                          className="w-full rounded-lg shadow-lg"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <img
+                    src={certifications.find(c => c.id === selectedCert)?.image}
+                    alt={certifications.find(c => c.id === selectedCert)?.title}
+                    className="w-full rounded-lg shadow-lg"
+                  />
                   <div className="text-center">
                     <h2 className="text-2xl font-playfair text-[#700100] mb-4">
                       {certifications.find(c => c.id === selectedCert)?.title}
