@@ -99,3 +99,31 @@
 .leaflet-bottom {
   z-index: 1 !important;
 }
+
+.perspective {
+  perspective: 2000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.translate-z-2 {
+  transform: translateZ(2px);
+}
+
+.translate-z-0 {
+  transform: translateZ(0);
+}
+
+.-translate-z-2 {
+  transform: translateZ(-2px);
+}
+
+.rotate-y-5 {
+  transform: rotateY(5deg);
+}
+
+.rotate-x-5 {
+  transform: rotateX(5deg);
+}
