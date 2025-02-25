@@ -1,3 +1,11 @@
+export interface Reseller {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  image: string;
+}
 
 export interface Supplier {
   id: string;
@@ -13,6 +21,33 @@ export interface Store {
   coordinates: [number, number];
   suppliers: string[];
 }
+
+export const RESELLERS_DATA: Reseller[] = [
+  {
+    id: 1,
+    name: "Tazart Store Tunis Centre",
+    address: "123 Avenue Habib Bourguiba, Tunis",
+    phone: "+216 71 123 456",
+    email: "tunis@tazart.tn",
+    image: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 2,
+    name: "Tazart La Marsa",
+    address: "45 Avenue de la Plage, La Marsa",
+    phone: "+216 71 789 012",
+    email: "marsa@tazart.tn",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 3,
+    name: "Tazart Sousse",
+    address: "78 Avenue du 14 Janvier, Sousse",
+    phone: "+216 73 456 789",
+    email: "sousse@tazart.tn",
+    image: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  }
+];
 
 export const suppliers: Supplier[] = [
   {

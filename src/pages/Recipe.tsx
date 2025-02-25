@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Clock, Users, ChefHat, Timer } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -14,6 +15,10 @@ const Recipe = ({ recipeId, onBack }: { recipeId: string; onBack: () => void }) 
     if (foundRecipe) {
       const completeRecipe: RecipeType = {
         ...foundRecipe,
+        prepTime: '20 min',
+        cookTime: foundRecipe.time,
+        totalTime: foundRecipe.time,
+        author: 'Tazart',
         nutrition: {
           calories: 0,
           protein: 0,
@@ -21,10 +26,6 @@ const Recipe = ({ recipeId, onBack }: { recipeId: string; onBack: () => void }) 
           fat: 0
         },
         tags: [],
-        prepTime: foundRecipe.prepTime || '20 min',
-        cookTime: foundRecipe.time,
-        totalTime: foundRecipe.time,
-        author: 'Tazart',
         tips: []
       };
       setRecipe(completeRecipe);

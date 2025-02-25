@@ -1,6 +1,7 @@
+
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
-import { RESELLERS_DATA } from '../config/resellers';
+import { RESELLERS_DATA, type Reseller } from '../config/resellers';
 
 const Revendeurs = () => {
   return (
@@ -22,7 +23,7 @@ const Revendeurs = () => {
       {/* Resellers List */}
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {RESELLERS_DATA.map((reseller) => (
+          {RESELLERS_DATA.map((reseller: Reseller) => (
             <motion.div
               key={reseller.id}
               initial={{ opacity: 0, y: 20 }}
