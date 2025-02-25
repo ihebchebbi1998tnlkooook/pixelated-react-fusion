@@ -12,7 +12,22 @@ const Recipe = ({ recipeId, onBack }: { recipeId: string; onBack: () => void }) 
   useEffect(() => {
     const foundRecipe = FEATURED_RECIPES.find(r => r.id === recipeId);
     if (foundRecipe) {
-      setRecipe(foundRecipe);
+      const completeRecipe: RecipeType = {
+        ...foundRecipe,
+        nutrition: {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0
+        },
+        tags: [],
+        prepTime: foundRecipe.prepTime || '20 min',
+        cookTime: foundRecipe.time,
+        totalTime: foundRecipe.time,
+        author: 'Tazart',
+        tips: []
+      };
+      setRecipe(completeRecipe);
     }
   }, [recipeId]);
 

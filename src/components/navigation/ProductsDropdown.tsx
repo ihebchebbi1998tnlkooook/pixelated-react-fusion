@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 
 interface SubMenuItem {

@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Award, CheckCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet';
