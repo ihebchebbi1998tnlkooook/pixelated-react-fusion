@@ -11,13 +11,13 @@ const Certifications = () => {
     {
       id: 1,
       title: "Certification ISO 22000",
-      image: "/lovable-uploads/72f91537-d0c3-4173-95e8-7d864598b156.png",
+      image: "https://github.com/ihebchebbi1998tnlkooook/pixelated-react-fusion.git",
       description: "Notre certification ISO 22000 témoigne de notre engagement envers la sécurité alimentaire et la qualité de nos produits."
     },
     {
       id: 2,
       title: "Agriculture Biologique",
-      image: "/lovable-uploads/72f91537-d0c3-4173-95e8-7d864598b156.png",
+      image: "https://github.com/ihebchebbi1998tnlkooook/pixelated-react-fusion.git",
       description: "Notre certification Bio garantit des produits 100% naturels, cultivés dans le respect de l'environnement."
     }
   ];
