@@ -33,7 +33,7 @@ function App() {
   const renderPage = () => {
     // First check if it's a product page
     if (currentPage.startsWith('produits/')) {
-      return <Products />;
+      return <Products clientType={clientType} />;
     }
 
     // Then check other pages
