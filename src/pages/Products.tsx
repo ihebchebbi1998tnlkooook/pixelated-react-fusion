@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Filter, Leaf, Award, Eye } from 'lucide-react';
+import ProductDetail from './ProductDetail';
 
 interface FilterOption {
   id: string;
@@ -15,6 +16,7 @@ const Products = () => {
     { id: 'organic', label: 'Bio', icon: <Leaf className="w-4 h-4" />, active: false },
     { id: 'fairTrade', label: 'Commerce Équitable', icon: <Award className="w-4 h-4" />, active: false },
   ]);
+  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
 
   const toggleFilter = (id: string) => {
     setActiveFilters(filters =>
@@ -25,9 +27,12 @@ const Products = () => {
   };
 
   const handleConsult = (productId: number) => {
-    // Navigate to product detail page
-    window.location.href = `/product/${productId}`;
+    setSelectedProduct(productId);
   };
+
+  if (selectedProduct !== null) {
+    return <ProductDetail onBack={() => setSelectedProduct(null)} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FDF6F0]/50 to-white/50 pt-32 pb-16">
