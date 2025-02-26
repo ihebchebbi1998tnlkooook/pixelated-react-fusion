@@ -123,7 +123,7 @@ const ProductDetail = ({ onBack }: ProductDetailProps) => {
 
             {/* Nutrition Facts Card */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-              <div className="px-6 py-4 bg-[#700100]">
+              <div className="px-6 py-4 bg-gradient-to-br from-[#64381b] to-[#4e2b15]">
                 <h2 className="text-xl font-playfair text-white">
                   Valeurs Nutritionnelles
                 </h2>
@@ -164,7 +164,7 @@ const ProductDetail = ({ onBack }: ProductDetailProps) => {
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[800px]">
                   <thead>
-                    <tr className="bg-[#700100] text-white">
+                    <tr className="bg-gradient-to-br from-[#64381b] to-[#4e2b15] text-white">
                       <th className="px-6 py-4 text-left text-sm font-semibold">Désignation</th>
                       <th className="px-4 py-4 text-center text-sm font-semibold whitespace-nowrap">Paquets/<br/>Carton</th>
                       <th className="px-4 py-4 text-center text-sm font-semibold whitespace-nowrap">Cartons/<br/>Palette</th>
@@ -201,7 +201,7 @@ const ProductDetail = ({ onBack }: ProductDetailProps) => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                <div className="px-6 py-4 bg-[#700100]">
+                <div className="px-6 py-4 bg-gradient-to-br from-[#64381b] to-[#4e2b15]">
                   <h3 className="text-xl font-playfair text-white">Fiche technique</h3>
                 </div>
                 <div className="divide-y divide-gray-100">
@@ -216,7 +216,7 @@ const ProductDetail = ({ onBack }: ProductDetailProps) => {
 
               {/* Nutrition Facts Card (Desktop) */}
               <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 md:block hidden">
-                <div className="px-6 py-4 bg-[#700100]">
+                <div className="px-6 py-4 bg-gradient-to-br from-[#64381b] to-[#4e2b15]">
                   <h3 className="text-xl font-playfair text-white">Valeurs Nutritionnelles</h3>
                 </div>
                 <div className="divide-y divide-gray-100">
