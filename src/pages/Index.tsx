@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { HeroSection } from "../components/HeroSection";
-import ProductGrid from "../components/ProductGrid";
 import AboutSection from "../components/AboutSection";
 import FeaturesSection from "../components/FeaturesSection";
 import FAQ from "../components/FAQ";
@@ -10,6 +9,7 @@ import ProjectGallery from "../components/ProjectGallery";
 import { WelcomeDialog } from "../components/WelcomeDialog";
 import LoadingScreen from "../components/LoadingScreen";
 import { AnimatePresence } from "framer-motion";
+import VideoAdPopup from "../components/VideoAdPopup";
 
 const Index = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -29,6 +29,12 @@ const Index = () => {
       <AnimatePresence>
         {isLoading && <LoadingScreen />}
       </AnimatePresence>
+
+      {/* Video Ad Popup - Appears after the page loads */}
+      <VideoAdPopup 
+        delayTime={5000} 
+        videoUrl="pubtazart.mp4" 
+      />
 
       <main className="min-h-screen">
         <WelcomeDialog />
