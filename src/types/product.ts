@@ -15,6 +15,7 @@ export interface Product {
   description: string;
   image: string;
   category: ProductCategory;
+  subcategory?: string;
   certifications: string[];
   price?: string;
   weight?: string;
