@@ -9,6 +9,7 @@ interface SubMenuItem {
   label: string;
   href: string;
   category: ProductCategory;
+  subcategory?: string;
   translationKey: string;
 }
 
@@ -24,17 +25,17 @@ const MENU_ITEMS: MenuItem[] = [
     label: "Dattes",
     translationKey: "navbar.dates",
     items: [
-      { label: "Coffret Cadeaux", href: "products", category: "coffret-cadeaux", translationKey: "navbar.gift_box" },
-      { label: "Paquets", href: "products", category: "paquets", translationKey: "navbar.packages" },
-      { label: "Dattes en Vrac", href: "products", category: "dattes-en-vrac", translationKey: "navbar.bulk_dates" }
+      { label: "Coffrets Cadeaux", href: "products", category: "dattes-fraiches", subcategory: "coffret-cadeaux", translationKey: "navbar.gift_box" },
+      { label: "Paquets", href: "products", category: "dattes-fraiches", subcategory: "paquet", translationKey: "navbar.packages" },
+      { label: "Barquettes", href: "products", category: "dattes-transformees", subcategory: "barquette", translationKey: "navbar.trays" }
     ]
   },
   {
     label: "Figues Séchées",
     translationKey: "navbar.dried_figs",
     items: [
-      { label: "Figues Séchées à l'Huile d'Olive", href: "products", category: "figues-sechees-huile-olive", translationKey: "navbar.figs_olive_oil" },
-      { label: "Figues Séchées en Vrac", href: "products", category: "figues-sechees-en-vrac", translationKey: "navbar.bulk_figs" }
+      { label: "Figues Séchées à l'Huile d'Olive", href: "products", category: "figues-sechees", translationKey: "navbar.figs_olive_oil" },
+      { label: "Figues Séchées en Vrac", href: "products", category: "figues-sechees", translationKey: "navbar.bulk_figs" }
     ]
   },
   {
@@ -61,7 +62,7 @@ const MENU_ITEMS: MenuItem[] = [
 ];
 
 interface ProductsDropdownProps {
-  onPageChange: (page: string, category?: ProductCategory) => void;
+  onPageChange: (page: string, category?: ProductCategory, subcategory?: string) => void;
 }
 
 const ProductsDropdown = ({ onPageChange }: ProductsDropdownProps) => {
@@ -71,9 +72,9 @@ const ProductsDropdown = ({ onPageChange }: ProductsDropdownProps) => {
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
 
-  const handleClick = (href: string, category: ProductCategory, e: React.MouseEvent) => {
+  const handleClick = (href: string, category: ProductCategory, subcategory?: string, e: React.MouseEvent) => {
     e.preventDefault();
-    onPageChange(href, category);
+    onPageChange(href, category, subcategory);
     setIsOpen(false);
   };
 
@@ -91,7 +92,6 @@ const ProductsDropdown = ({ onPageChange }: ProductsDropdownProps) => {
     onPageChange("products-all");
     setIsOpen(false);
   };
-
   
   // Handle mouse leave for the main dropdown with a delay
   const handleDropdownLeave = () => {
@@ -162,7 +162,7 @@ const ProductsDropdown = ({ onPageChange }: ProductsDropdownProps) => {
                     <a
                       key={subItem.translationKey}
                       href="#"
-                      onClick={(e) => handleClick(subItem.href, subItem.category, e)}
+                      onClick={(e) => handleClick(subItem.href, subItem.category, subItem.subcategory, e)}
                       className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#96cc39]"
                     >
                       {t(subItem.translationKey)}

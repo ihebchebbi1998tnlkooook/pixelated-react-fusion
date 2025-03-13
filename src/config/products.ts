@@ -1,4 +1,3 @@
-
 import type { Product, ProductCategory } from '../types/product';
 
 export const PRODUCT_CATEGORIES: Record<ProductCategory, string> = {
@@ -21,6 +20,7 @@ export const PRODUCTS: Product[] = [
     isOrganic: true,
     isFairTrade: true,
     category: 'dattes-fraiches',
+    subcategory: 'paquet',
     certifications: ['Bio', 'Fair Trade'],
     weight: '1kg',
     calories: {
@@ -93,6 +93,7 @@ export const PRODUCTS: Product[] = [
     isOrganic: true,
     isFairTrade: true,
     category: 'dattes-fraiches',
+    subcategory: 'paquet',
     certifications: ['Bio', 'Fair Trade'],
     weight: '500g',
     calories: {
@@ -167,6 +168,7 @@ export const PRODUCTS: Product[] = [
     isOrganic: true,
     isFairTrade: true,
     category: 'dattes-fraiches',
+    subcategory: 'coffret-cadeaux',
     certifications: ['Bio', 'Fair Trade'],
     weight: '1kg',
     calories: {
@@ -239,6 +241,7 @@ export const PRODUCTS: Product[] = [
     isOrganic: true,
     isFairTrade: true,
     category: 'dattes-fraiches',
+    subcategory: 'coffret-cadeaux',
     certifications: ['Bio', 'Fair Trade'],
     weight: '500g',
     calories: {
@@ -313,6 +316,7 @@ export const PRODUCTS: Product[] = [
     isOrganic: true,
     isFairTrade: true,
     category: 'dattes-transformees',
+    subcategory: 'barquette',
     certifications: ['Bio', 'Fair Trade'],
     weight: '500g',
     calories: {
@@ -385,6 +389,7 @@ export const PRODUCTS: Product[] = [
     isOrganic: true,
     isFairTrade: true,
     category: 'dattes-transformees',
+    subcategory: 'barquette',
     certifications: ['Bio', 'Fair Trade'],
     weight: '200g',
     calories: {
@@ -975,7 +980,10 @@ export const NAVIGATION_STRUCTURE = [
     type: 'dattes',
     items: [
       { label: 'Dattes Fraîches', href: 'products', category: 'dattes-fraiches' },
-      { label: 'Dattes Transformées', href: 'products', category: 'dattes-transformees' }
+      { label: 'Paquets', href: 'products', category: 'dattes-fraiches', subcategory: 'paquet' },
+      { label: 'Coffrets Cadeaux', href: 'products', category: 'dattes-fraiches', subcategory: 'coffret-cadeaux' },
+      { label: 'Dattes Transformées', href: 'products', category: 'dattes-transformees' },
+      { label: 'Barquettes', href: 'products', category: 'dattes-transformees', subcategory: 'barquette' }
     ]
   },
   {
@@ -995,3 +1003,4 @@ export const NAVIGATION_STRUCTURE = [
     ]
   }
 ];
+

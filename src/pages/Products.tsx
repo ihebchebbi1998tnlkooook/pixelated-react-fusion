@@ -13,9 +13,10 @@ import { PRODUCTS } from '../config/products';
 
 interface ProductsProps {
   selectedCategory?: ProductCategory;
+  selectedSubcategory?: string;
 }
 
-const Products = ({ selectedCategory }: ProductsProps) => {
+const Products = ({ selectedCategory, selectedSubcategory }: ProductsProps) => {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
   // Use products from the config
@@ -54,7 +55,8 @@ const Products = ({ selectedCategory }: ProductsProps) => {
       <div className="container mx-auto px-4">
         <ProductsGrid 
           products={filteredProducts} 
-          onSelectProduct={setSelectedProductId} 
+          onSelectProduct={setSelectedProductId}
+          subcategory={selectedSubcategory}
         />
         
         <MadeInTunisia />

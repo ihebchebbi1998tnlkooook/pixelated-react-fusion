@@ -8,14 +8,20 @@ import { useTranslation } from 'react-i18next';
 interface ProductsGridProps {
   products: Product[];
   onSelectProduct: (id: string) => void;
+  subcategory?: string;
 }
 
-const ProductsGrid: React.FC<ProductsGridProps> = ({ products, onSelectProduct }) => {
+const ProductsGrid: React.FC<ProductsGridProps> = ({ products, onSelectProduct, subcategory }) => {
   const { t } = useTranslation();
+  
+  // Filter products by subcategory if provided
+  const filteredProducts = subcategory 
+    ? products.filter(product => product.subcategory === subcategory)
+    : products;
   
   return (
     <div className="py-8">
-      {products.length === 0 ? (
+      {filteredProducts.length === 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -29,7 +35,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({ products, onSelectProduct }
           animate={{ opacity: 1 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <motion.div 
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
