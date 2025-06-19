@@ -98,7 +98,7 @@ const MobileMenu = ({
                       { href: "/category/pret-a-porter/homme/vestes", title: "Vestes", description: "Vestes élégantes" },
                       { href: "/category/pret-a-porter/homme/chemises", title: "Chemise", description: "Chemises classiques" },
                       { href: "/category/pret-a-porter/homme/pantalons", title: "Pantalon", description: "Pantalons élégants" },
-                      { href: "/category/pret-a-porter/homme/pollo", title: "Polo", description: "Polos élégants" }
+                      { href: "/category/pret-a-porter/homme/polo", title: "Polo", description: "Polos élégants" }
                     ]}
                     onClick={(href) => handleLinkClick(href)}
                   />
@@ -119,7 +119,6 @@ const MobileMenu = ({
                 </div>
               </li>
 
-
               <li className="text-white/90">
                 <div className="group">
                   <SubMenuSectionMobile
@@ -132,8 +131,6 @@ const MobileMenu = ({
                       { href: "/category/accessoires/homme/porte-cartes", title: "Porte carte", description: "Porte-cartes élégants" },
                       { href: "/category/accessoires/homme/porte-cles", title: "Porte cles", description: "Porte-cle élégants" },
                       { href: "/category/accessoires/homme/porte-passport", title: "porte passport", description: "Porte-passport élégants" }
-
-
                     ]}
                     onClick={(href) => handleLinkClick(href)}
                   />
@@ -149,7 +146,7 @@ const MobileMenu = ({
                       { href: "/category/outlet/homme/blazers", title: "Blazers", description: "Blazers en solde" },
                       { href: "/category/outlet/homme/chemises", title: "Chemises", description: "Chemises en promotion" },
                       { href: "/category/outlet/homme/pantalons", title: "Pantalons", description: "Pantalons en solde" },
-                      { href: "/category/outlet/homme/pollo", title: "Polo", description: "Polos en promotion" },
+                      { href: "/category/outlet/homme/polo", title: "Polo", description: "Polos en promotion" },
                       { href: "/category/outlet/femme/chemises", title: "Chemises Femme", description: "Chemises en promotion" },
                       { href: "/category/outlet/femme/robes", title: "Robes", description: "Robes en solde" },
                       { href: "/category/outlet/femme/vestes", title: "Vestes/Manteaux", description: "Vestes et manteaux en promotion" }
