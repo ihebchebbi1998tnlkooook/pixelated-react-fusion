@@ -1,88 +1,72 @@
+
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
-import { calculateDiscountedPrice, formatPrice } from '@/utils/priceCalculations';
+import { Product } from '@/types/product';
+import { Badge } from '@/components/ui/badge';
 
 interface ProductInfoProps {
-  name: string;
-  description: string;
-  price: number;
-  discount: string;
-  rating?: number;
-  reviews?: number;
+  product: Product;
 }
 
-const ProductInfo = ({ 
-  name, 
-  description, 
-  price, 
-  discount, 
-  rating = 4.7, 
-  reviews = 118 
-}: ProductInfoProps) => {
-  
-  const hasDiscount = discount !== "" && !isNaN(parseFloat(discount)) && parseFloat(discount) > 0;
-  const discountedPrice = hasDiscount ? calculateDiscountedPrice(price, discount) : price;
+const ProductInfo = ({ product }: ProductInfoProps) => {
+  const formatPrice = (price: number | undefined): string => {
+    if (price === undefined || price === null || isNaN(price)) {
+      return '0.00';
+    }
+    return price.toFixed(2);
+  };
 
+  const formattedDescription = product.description?.split('\\n').map((line, index) => (
+    <p key={index} className="text-gray-600 py-1">{line.trim()}</p>
+  )) || [];
 
   return (
-    <div className="space-y-6">
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-4"
-      >
-        <h1 className="text-2xl md:text-3xl font-['WomanFontBold'] text-gray-900 leading-tight">
-          {name}
+    <div className="space-y-4">
+      <div>
+        <h1 className="text-3xl font-bold text-[#700100] mb-2">
+          {product.name}
         </h1>
-        
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            {hasDiscount ? (
-              <>
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold text-[#700100]">
-                    {formatPrice(discountedPrice)} TND
-                  </span>
-                  <span className="text-sm font-medium  bg-[#700100] text-white px-2 py-1 rounded">
-                    - {discount}%
-                  </span>
-                </div>
-                <span className="text-lg text-gray-500 line-through">
-                  {formatPrice(price)} TND
-                </span>
-              </>
-            ) : (
-              <span className="text-2xl font-bold text-[#700100]">
-                {formatPrice(price)} TND
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  className={`w-4 h-4 ${
-                    star <= Math.floor(rating)
-                      ? 'fill-yellow-400 text-yellow-400'
-                      : 'fill-gray-200 text-gray-200'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-sm text-gray-600">
-              {rating} ({reviews} reviews)
-            </span>
+        <p className="text-sm text-gray-500 mb-4">
+          Référence: {product.reference}
+        </p>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <span className="text-3xl font-bold text-[#700100]">
+          {formatPrice(product.price)} TND
+        </span>
+        {product.discount_product && (
+          <Badge variant="destructive" className="bg-red-500">
+            -{product.discount_product}%
+          </Badge>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-semibold text-gray-800 mb-2">Description</h3>
+          <div className="text-gray-600 space-y-1">
+            {formattedDescription}
           </div>
         </div>
 
-        <div className="flex flex-col space-y-2">
-          {description?.split('\n').map((line, index) => (
-            <p key={index} className="text-gray-600 py-1">{line.trim()}</p>
-          ))}
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span className="font-medium text-gray-700">Matière:</span>
+            <span className="ml-2 text-gray-600">{product.material}</span>
+          </div>
+          <div>
+            <span className="font-medium text-gray-700">Couleur:</span>
+            <span className="ml-2 text-gray-600">{product.color}</span>
+          </div>
         </div>
-      </motion.div>
+
+        {product.status === 'in_stock' && (
+          <div className="flex items-center gap-2 text-green-600">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-sm font-medium">En stock</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

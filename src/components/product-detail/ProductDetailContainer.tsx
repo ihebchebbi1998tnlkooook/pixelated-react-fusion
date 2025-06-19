@@ -17,6 +17,11 @@ const ProductDetailContainer = ({ product, onProductAdded }: ProductDetailContai
   const [quantity, setQuantity] = useState<number>(1);
   const [personalization, setPersonalization] = useState<string>('');
 
+  const handleInitialAddToCart = () => {
+    console.log('Adding to cart:', { selectedSize, selectedColor, quantity, personalization });
+    onProductAdded(product.name);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -31,16 +36,9 @@ const ProductDetailContainer = ({ product, onProductAdded }: ProductDetailContai
       <div className="space-y-6">
         <ProductInfo product={product} />
         <ProductActions 
+          handleInitialAddToCart={handleInitialAddToCart}
           product={product}
           selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-          selectedColor={selectedColor}
-          setSelectedColor={setSelectedColor}
-          quantity={quantity}
-          setQuantity={setQuantity}
-          personalization={personalization}
-          setPersonalization={setPersonalization}
-          onProductAdded={onProductAdded}
         />
       </div>
     </motion.div>
