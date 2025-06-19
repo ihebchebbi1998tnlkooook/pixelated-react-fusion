@@ -1,3 +1,4 @@
+
 import React from 'react';
 import NavMenuItem from '../navigation/NavMenuItem';
 import GiftUniverseMenu from './GiftUniverseMenu';
@@ -56,7 +57,7 @@ const MainNavbarMenus = () => {
                 description: "Pantalons en solde"
               },
               {
-                href: "/category/outlet/homme/pollo",
+                href: "/category/outlet/homme/polo",
                 title: "Polo",
                 description: "Polos en promotion"
               }

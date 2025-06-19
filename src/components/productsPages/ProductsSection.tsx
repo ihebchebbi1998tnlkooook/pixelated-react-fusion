@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import ProductCard from "../ProductCard";
 import { useQuery } from "@tanstack/react-query";
@@ -86,7 +87,7 @@ const ProductsSection = ({ isFromFooter = false }: ProductsSectionProps) => {
                    product.category_product.toLowerCase() === 'homme';
           }
 
-          // If we have an itemgroup specified (e.g., chemises, cravates)
+          // If we have an itemgroup specified (e.g., chemises, cravates, polo)
           if (itemgroup) {
             const normalizedItemgroup = normalizeString(itemgroup);
             const productItemgroup = normalizeString(product.itemgroup_product);

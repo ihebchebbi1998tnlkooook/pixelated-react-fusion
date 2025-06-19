@@ -1,3 +1,4 @@
+
 import { Gift, ShoppingBag, Shirt, Watch, Scissors } from 'lucide-react';
 
 export const menuItems = [
@@ -35,7 +36,7 @@ export const menuItems = [
       { href: "/category/pret-a-porter/homme/vestes", title: "Vestes" },
       { href: "/category/pret-a-porter/homme/chemises", title: "Chemises" },
       { href: "/category/pret-a-porter/homme/pantalons", title: "Pantalons" },
-      { href: "/category/pret-a-porter/homme/pollo", title: "Polo" },
+      { href: "/category/pret-a-porter/homme/polo", title: "Polo" },
     ],
   },
   {
@@ -67,7 +68,7 @@ export const menuItems = [
       { href: "/category/outlet/homme/blazers", title: "Blazers" },
       { href: "/category/outlet/homme/chemises", title: "Chemises" },
       { href: "/category/outlet/homme/pantalons", title: "Pantalons" },
-      { href: "/category/outlet/homme/pollo", title: "Polo" },
+      { href: "/category/outlet/homme/polo", title: "Polo" },
       { href: "/category/outlet/femme/chemises", title: "Chemises Femme" },
       { href: "/category/outlet/femme/robes", title: "Robes" },
       { href: "/category/outlet/femme/vestes", title: "Vestes/Manteaux" },

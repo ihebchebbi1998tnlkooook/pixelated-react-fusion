@@ -1,3 +1,4 @@
+
 import React from 'react';
 import SubMenuSection from '../../navigation/SubMenuSection';
 
@@ -33,8 +34,8 @@ const ProductPretAPorterSection = () => {
             description: "Pantalons élégants"
           },
           {
-            href: "/category/pret-a-porter/homme/pollo",
-            title: "Pollo",
+            href: "/category/pret-a-porter/homme/polo",
+            title: "Polo",
             description: "Polos élégants"
           }
         ]}
