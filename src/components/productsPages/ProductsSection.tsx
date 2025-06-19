@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 import ProductCard from "../ProductCard";
 import { useQuery } from "@tanstack/react-query";
@@ -87,6 +88,15 @@ const ProductsSection = ({ isFromFooter = false }: ProductsSectionProps) => {
                    product.category_product.toLowerCase() === 'homme';
           }
 
+          // Special case for outlet homme polo - show all polo products
+          if (normalizedType === 'outlet' &&
+              normalizedCategory === 'homme' &&
+              itemgroup &&
+              normalizeString(itemgroup) === 'polo') {
+            return product.itemgroup_product === 'polo' && 
+                   product.category_product.toLowerCase() === 'homme';
+          }
+
           // If we have an itemgroup specified (e.g., chemises, cravates, polo)
           if (itemgroup) {
             const normalizedItemgroup = normalizeString(itemgroup);
@@ -167,3 +177,4 @@ const ProductsSection = ({ isFromFooter = false }: ProductsSectionProps) => {
 };
 
 export default ProductsSection;
+

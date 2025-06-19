@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { X, MapPin, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -98,7 +99,7 @@ const MobileMenu = ({
                       { href: "/category/pret-a-porter/homme/vestes", title: "Vestes", description: "Vestes élégantes" },
                       { href: "/category/pret-a-porter/homme/chemises", title: "Chemise", description: "Chemises classiques" },
                       { href: "/category/pret-a-porter/homme/pantalons", title: "Pantalon", description: "Pantalons élégants" },
-                      { href: "/category/pret-a-porter/homme/pollo", title: "Polo", description: "Polos élégants" }
+                      { href: "/category/pret-a-porter/homme/polo", title: "Polo", description: "Polos élégants" }
                     ]}
                     onClick={(href) => handleLinkClick(href)}
                   />
@@ -149,7 +150,7 @@ const MobileMenu = ({
                       { href: "/category/outlet/homme/blazers", title: "Blazers", description: "Blazers en solde" },
                       { href: "/category/outlet/homme/chemises", title: "Chemises", description: "Chemises en promotion" },
                       { href: "/category/outlet/homme/pantalons", title: "Pantalons", description: "Pantalons en solde" },
-                      { href: "/category/outlet/homme/pollo", title: "Polo", description: "Polos en promotion" },
+                      { href: "/category/outlet/homme/polo", title: "Polo", description: "Polos en promotion" },
                       { href: "/category/outlet/femme/chemises", title: "Chemises Femme", description: "Chemises en promotion" },
                       { href: "/category/outlet/femme/robes", title: "Robes", description: "Robes en solde" },
                       { href: "/category/outlet/femme/vestes", title: "Vestes/Manteaux", description: "Vestes et manteaux en promotion" }

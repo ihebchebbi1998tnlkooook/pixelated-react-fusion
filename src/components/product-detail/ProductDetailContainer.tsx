@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { useCart } from '@/components/cart/CartProvider';
